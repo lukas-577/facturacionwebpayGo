@@ -3,7 +3,7 @@ package controller
 import (
 	"html/template"
 	"net/http"
-	"webpaygo/models"
+	"webpaygo/api/models"
 
 	"github.com/fenriz07/Golang-Transbank-WebPay-Rest/pkg/transaction"
 )
@@ -30,7 +30,7 @@ func InitTransaction(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), 500)
 	}
 
-	view := template.Must(template.ParseGlob("views/*"))
+	view := template.Must(template.ParseGlob("api/views/*"))
 
 	data := map[string]interface{}{
 		"url":   transaction.URL,

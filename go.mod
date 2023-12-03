@@ -7,6 +7,8 @@ require (
 	github.com/go-resty/resty/v2 v2.9.1 // indirect
 	github.com/gorilla/mux v1.8.0 // indirect
 	github.com/jarcoal/httpmock v1.3.1 // indirect
+	github.com/joho/godotenv v1.5.1 // indirect
+	github.com/lib/pq v1.10.9 // indirect
 	github.com/rs/cors v1.10.1 // indirect
 	golang.org/x/net v0.16.0 // indirect
 )

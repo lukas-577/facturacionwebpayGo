@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"webpaygo/controller"
+	"webpaygo/api/controller"
 
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
@@ -29,7 +29,7 @@ func Init() {
 
 	handler := cors.AllowAll().Handler(router)
 
-	fmt.Println("server en escucha")
+	fmt.Println("server en escucha: " + PORT)
 
 	log.Fatal(http.ListenAndServe(":"+PORT, handler))
 
