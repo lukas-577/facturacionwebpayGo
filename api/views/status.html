@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estado de Transacción</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 50%;
+            margin-top: 20px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ddd;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Estado de Transacción</h1>
+
+    <table>
+        <tr>
+            <th>Número de Orden</th>
+            <td>{{.NumberOrder}}</td>
+        </tr>
+        <tr>
+            <th>ID de Sesión</th>
+            <td>{{.IdSession}}</td>
+        </tr>
+        <tr>
+            <th>Estado</th>
+            <td>{{.Status}}</td>
+        </tr>
+        <tr>
+            <th>Monto</th>
+            <td>{{.Amount}}</td>
+        </tr>
+        <!-- Agrega más filas según las propiedades de tu estructura LogEntry -->
+    </table>
+
+    <!-- Puedes agregar más elementos HTML según tus necesidades -->
+
+</body>
+
+</html>

@@ -2,6 +2,7 @@ package controller
 
 import (
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 	"webpaygo/api/models"
@@ -65,6 +66,12 @@ func VerifTransaction(w http.ResponseWriter, r *http.Request) {
 		CardDetail:        resp.CardDetail,
 		AuthorizationCode: resp.AuthorizationCode,
 	}
+
+	// Verificar si el campo Status está vacío y establecerlo como "Anulado" si es necesario
+	if newLogEntry.Status == "" {
+		newLogEntry.Status = "Anulado"
+	}
+
 	logTransactionData(newLogEntry)
 
 	log.Println(resp)
@@ -87,6 +94,14 @@ func VerifTransaction(w http.ResponseWriter, r *http.Request) {
 
 	log.Println("Respuesta 3")
 	log.Println(resp3)
+
+	view := template.Must(template.ParseGlob("api/views/*"))
+
+	err = view.ExecuteTemplate(w, "status.html", newLogEntry)
+
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+	}
 
 }
 
