@@ -7,8 +7,6 @@ type LogEntry struct {
 	IdSession       string    `json:"id_session,omitempty"`
 	Status          string    `json:"status"`
 	Amount          int       `json:"amount"`
-	BuyOrder        string    `json:"buy_order"`
-	SessionID       string    `json:"session_id"`
 	AccountingDate  string    `json:"accounting_date"`
 	TransactionDate time.Time `json:"transaction_date"`
 	PaymentTypeCode string    `json:"payment_type_code"`

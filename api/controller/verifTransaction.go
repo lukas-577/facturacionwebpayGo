@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"time"
 	"webpaygo/api/models"
 	"webpaygo/api/utils"
 
@@ -54,17 +55,33 @@ func VerifTransaction(w http.ResponseWriter, r *http.Request) {
 
 	// Crea un nuevo LogEntry
 	newLogEntry := models.LogEntry{
-		NumberOrder:       numberOrder,
-		IdSession:         idSession,
 		Status:            resp.Status,
 		Amount:            resp.Amount,
-		BuyOrder:          resp.BuyOrder,
-		SessionID:         resp.SessionID,
 		AccountingDate:    resp.AccountingDate,
-		TransactionDate:   resp.TransactionDate,
 		PaymentTypeCode:   resp.PaymentTypeCode,
 		CardDetail:        resp.CardDetail,
 		AuthorizationCode: resp.AuthorizationCode,
+	}
+
+	// Asignación condicional para NumberOrder
+	if numberOrder != "" {
+		newLogEntry.NumberOrder = numberOrder
+	} else {
+		newLogEntry.NumberOrder = resp.BuyOrder
+	}
+
+	// Asignación condicional para IdSession
+	if idSession != "" {
+		newLogEntry.IdSession = idSession
+	} else {
+		newLogEntry.IdSession = resp.SessionID
+	}
+
+	// Asignación condicional para TransactionDate
+	if resp.TransactionDate.IsZero() {
+		newLogEntry.TransactionDate = time.Now()
+	} else {
+		newLogEntry.TransactionDate = resp.TransactionDate
 	}
 
 	// Verificar si el campo Status está vacío y establecerlo como "Anulado" si es necesario
@@ -123,13 +140,13 @@ func storeLogEntry(logData models.LogEntry) error {
 	//log.Printf("Inserting log entry into database: %+v\n", logData)
 
 	_, err = db.Exec(`
-        INSERT INTO dato_factura (
-            status, amount, buy_order, session_id, 
+        INSERT INTO log_entries (
+            status, amount, 
             accounting_date, transaction_date, payment_type_code, 
             card_number, authorization_code, number_order, id_session
-        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
     `,
-		logData.Status, logData.Amount, logData.BuyOrder, logData.SessionID,
+		logData.Status, logData.Amount,
 		logData.AccountingDate, logData.TransactionDate,
 		logData.PaymentTypeCode, logData.CardDetail.CardNumber,
 		logData.AuthorizationCode, logData.NumberOrder, logData.IdSession,
