@@ -19,6 +19,7 @@ func Init() {
 
 	router.HandleFunc("/", controller.InitTransaction).Methods("GET")
 	router.HandleFunc("/commit", controller.VerifTransaction).Methods("POST")
+	// se le pasan los datos de la transacción: order_id, session_id, monto, url_retorno
 	router.HandleFunc("/save-transaction", controller.SaveTransaction).Methods("POST")
 
 	PORT := os.Getenv("PORT")
